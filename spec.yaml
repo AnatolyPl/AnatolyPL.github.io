@@ -39,6 +39,7 @@ paths:
             application/json:
               schema:
                 type: object
+                additionalProperties: {}
         default:
           description: Unexpected error
           content:
