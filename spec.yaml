@@ -21,6 +21,9 @@ paths:
           schema:
             type: string
             enum: [office, flat_new, flat_old, building, warehouse]
+          example:
+            building_type: ''
+            
         - name: deal_type
           in: path
           description: Type of deal (rent or sale)
