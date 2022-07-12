@@ -1,0 +1,82 @@
+openapi: 3.0.0
+info:
+  version: '1.0.0'
+  title: 'OceanAPI'
+  license:
+    name: MIT
+servers:
+  - url: 'localhost:3000/api'
+paths:
+  /cian/{building_type}/{deal_type}/{region}:
+    get:
+      summary: 'Sample endpoint: Returns details about a particular user'
+      operationId: listUser
+      tags:
+        - cian
+      parameters:
+        - name: building_type
+          in: path
+          description: Type of building (office, warehouse etc.)
+          required: true
+          schema:
+            type: string
+        - name: deal_type
+          in: path
+          description: Type of deal (rent or sale)
+          required: true
+          schema:
+              type: string
+        - name: region
+          in: path
+          description: Region (Москва, Казань, Уфа etc.)
+          required: true
+          schema:
+              type: string
+      responses:
+        '200':
+          description: 'Celery task id'
+          content:
+            application/json:
+              schema:
+                type: object
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Cian:
+      type: object
+      required:
+        - celery_task_id
+      properties:
+        celery_task_id:
+          type: string
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+  examples:
+    Cian_if_have_data:
+      summary: RR
+      value: [
+          {'celery_task_id': 'dsf-wer-234-sd'},
+          {'celery_task_id': 'dsfsdrsd'},          
+      ]        
+      
+      
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+security:
+  - BasicAuth: []
