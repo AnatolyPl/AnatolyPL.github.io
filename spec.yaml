@@ -39,6 +39,13 @@ paths:
             application/json:
               schema:
                 type: object
+                properties:
+                  number:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
                 additionalProperties: {}
         default:
           description: Unexpected error
