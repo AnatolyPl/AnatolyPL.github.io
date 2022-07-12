@@ -20,6 +20,7 @@ paths:
           required: true
           schema:
             type: string
+            enum: [office, flat_new, flat_old, building, warehouse]
         - name: deal_type
           in: path
           description: Type of deal (rent or sale)
