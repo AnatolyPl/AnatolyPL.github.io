@@ -1,28 +1,26 @@
 openapi: 3.0.0
 info:
   version: '1.0.0'
-  title: 'OceanAPI'
+  title: 'InvestingAPI'
   license:
     name: MIT
 servers:
-  - url: 'localhost:8001/api'
+  - url: '95.165.130.22:8001/api'
 paths:
-  /cian/{building_type}/{deal_type}/{region}:
+  /investing/{celery_task_id}/:
     get:
-      summary: 'Sample endpoint: Returns details about a particular user'
-      operationId: listUser
+      summary: 'Returns details about created task'
+      operationId: getInfoAboutTask
       security:
         - {}
       tags:
-        - cian
+        - investing
       parameters:
-        - name: building_type
+        - name: celery_task_id
           in: path
-          description: Type of building (office, warehouse etc.)
           required: true
           schema:
-            type: string
-            enum: [office, flat_new, flat_old, building, warehouse]
+              type: string
           examples:
             office:
               value: office
@@ -30,31 +28,35 @@ paths:
             flat_new:
               value: flat_new
               summary: это если аренду
-        - name: test
-          in: query
-          required: true
-          schema:
-              type: array
-              items:
-                type: string
-        - name: deal_type
-          in: path
-          description: Type of deal (rent or sale)
-          required: true
-          schema:
-              type: string
-        - name: region
-          in: path
-          description: Region (Москва, Казань, Уфа etc.)
-          required: true
-          schema:
-              type: string
       responses:
         '200':
           description: 'Celery task id'
           content:
             application/json:
               schema:
+                $ref: '#/components/schemas/InvestingTaskInfo'
+  /investing/:
+    post:
+      summary: 'Returns celery_task_id of created task'
+      operationId: initiateInvestingTask
+      security:
+        - {}
+      tags:
+        - investing
+      requestBody:
+        description: 'TIKER of company' 
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tiker'
+      responses:
+        '200':
+          description: 'Celery task id'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CeleryId'
                 type: object
                 properties:
                   number:
@@ -64,21 +66,38 @@ paths:
                     items:
                       type: object
                       additionalProperties: {}
-        default:
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
 components:
   schemas:
-    Cian:
+    Tiker:
       type: object
-      required:
-        - celery_task_id
+      required: 
+        - tiker
+      properties:
+        tiker:
+          type: string
+      example:
+        'NASDAQCM:PIK'
+    CeleryId:
+      type: object
       properties:
         celery_task_id:
           type: string
+    InvestingTaskInfo:
+      type: object
+      properties:
+        ni:
+          type: object
+          items:
+            properties:
+              Q:
+                type: object
+                additionalProperties: {}
+              LTM:
+                type: object
+                additionalProperties: {}
+              FY:
+                type: object
+                additionalProperties: {}
     Error:
       type: object
       required:
@@ -90,14 +109,6 @@ components:
           format: int32
         message:
           type: string
-  examples:
-    Cian_if_have_data:
-      summary: RR
-      value: [
-          {'celery_task_id': 'dsf-wer-234-sd'},
-          {'celery_task_id': 'dsfsdrsd'},          
-      ]        
-      
       
   securitySchemes:
     BasicAuth:
