@@ -24,8 +24,12 @@ paths:
             type: string
             enum: [office, flat_new, flat_old, building, warehouse]
           examples:
-            'дд'
-            'hj'
+            office:
+              value: office
+              summary: это если офисы хотим
+            flat_new:
+              value: flat_new
+              summary: это если аренду
             
         - name: deal_type
           in: path
