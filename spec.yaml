@@ -5,7 +5,7 @@ info:
   license:
     name: MIT
 servers:
-  - url: 'localhost:3000/api'
+  - url: 'localhost:8001/api'
 paths:
   /cian/{building_type}/{deal_type}/{region}:
     get:
