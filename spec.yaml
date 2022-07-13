@@ -11,8 +11,7 @@ paths:
     get:
       summary: 'Returns details about created task'
       operationId: getInfoAboutTask
-      security:
-        - {}
+      security: []
       tags:
         - investing
       parameters:
@@ -42,8 +41,7 @@ paths:
     post:
       summary: 'Returns celery_task_id of created task'
       operationId: initiateInvestingTask
-      security:
-        - {}
+      security: []
       tags:
         - investing
       requestBody:
