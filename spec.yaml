@@ -23,8 +23,9 @@ paths:
           schema:
             type: string
             enum: [office, flat_new, flat_old, building, warehouse]
-          example:
-            'office'
+          examples:
+            'дд'
+            'hj'
             
         - name: deal_type
           in: path
