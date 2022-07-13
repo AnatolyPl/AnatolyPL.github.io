@@ -24,7 +24,7 @@ paths:
             type: string
             enum: [office, flat_new, flat_old, building, warehouse]
           example:
-            building_type: ''
+            'office'
             
         - name: deal_type
           in: path
