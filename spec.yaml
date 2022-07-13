@@ -21,13 +21,6 @@ paths:
           required: true
           schema:
               type: string
-          examples:
-            office:
-              value: office
-              summary: это если офисы хотим
-            flat_new:
-              value: flat_new
-              summary: это если аренду
       responses:
         '200':
           description: 'Celery task id'
@@ -211,10 +204,3 @@ components:
           format: int32
         message:
           type: string
-      
-  securitySchemes:
-    BasicAuth:
-      type: http
-      scheme: basic
-security:
-  - BasicAuth: []
