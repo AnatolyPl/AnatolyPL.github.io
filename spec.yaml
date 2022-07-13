@@ -23,11 +23,21 @@ paths:
               type: string
       responses:
         '200':
-          description: 'Celery task id'
+          description: 'Task data'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/InvestingTaskInfo'
+        '201':
+          description: 'Task in process'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    type: string
+                    enum: ['task in progress']
   /investing/:
     post:
       summary: 'Returns celery_task_id of created task'
