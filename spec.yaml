@@ -90,14 +90,114 @@ components:
       properties:
         ni:
           type: object
+          description: 'Net Income Reconciliation'
           properties:
               Q:
+                description: 'period: Fiscal Quarter'
                 type: object
                 additionalProperties: {}
               LTM:
+                description: 'period: Latest Twelve Month'
                 type: object
                 additionalProperties: {}
               FY:
+                description: 'period: Fiscal Year'
+                type: object
+                additionalProperties: {}
+        ebitda:
+          type: object
+          description: 'EBITDA Reconciliation'
+          properties:
+              Q:
+                description: 'period: Fiscal Quarter'
+                type: object
+                additionalProperties: {}
+              LTM:
+                description: 'period: Latest Twelve Month'
+                type: object
+                additionalProperties: {}
+              FY:
+                description: 'period: Fiscal Year'
+                type: object
+                additionalProperties: {}
+        forecasts:
+          type: object
+          description: 'Forecasts'
+          properties:
+              Q:
+                description: 'period: Fiscal Quarter'
+                type: object
+                additionalProperties: {}
+              LTM:
+                description: 'period: Latest Twelve Month'
+                type: object
+                additionalProperties: {}
+              FY:
+                description: 'period: Fiscal Year'
+                type: object
+                additionalProperties: {}
+        valuation:
+          type: object
+          description: 'Valuation Ratios'
+          properties:
+              Q:
+                description: 'period: Fiscal Quarter'
+                type: object
+                additionalProperties: {}
+              LTM:
+                description: 'period: Latest Twelve Month'
+                type: object
+                additionalProperties: {}
+              FY:
+                description: 'period: Fiscal Year'
+                type: object
+                additionalProperties: {}
+        balance_sheet:
+          type: object
+          description: 'Balance Sheet'
+          properties:
+              Q:
+                description: 'period: Fiscal Quarter'
+                type: object
+                additionalProperties: {}
+              LTM:
+                description: 'period: Latest Twelve Month'
+                type: object
+                additionalProperties: {}
+              FY:
+                description: 'period: Fiscal Year'
+                type: object
+                additionalProperties: {}
+        income_statement:
+          type: object
+          description: 'Income Statement'
+          properties:
+              Q:
+                description: 'period: Fiscal Quarter'
+                type: object
+                additionalProperties: {}
+              LTM:
+                description: 'period: Latest Twelve Month'
+                type: object
+                additionalProperties: {}
+              FY:
+                description: 'period: Fiscal Year'
+                type: object
+                additionalProperties: {}
+        cashflow_statement:
+          type: object
+          description: 'Cash Flow Statement'
+          properties:
+              Q:
+                description: 'period: Fiscal Quarter'
+                type: object
+                additionalProperties: {}
+              LTM:
+                description: 'period: Latest Twelve Month'
+                type: object
+                additionalProperties: {}
+              FY:
+                description: 'period: Fiscal Year'
                 type: object
                 additionalProperties: {}
     Error:
