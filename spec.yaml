@@ -50,6 +50,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Tiker'
+            examples:
+              Kidpik Corp.:
+                value: 
+                  tiker: NASDAQCM:PIK
+                summary: Kинформация о Kidpik Corp.
       responses:
         '200':
           description: 'Celery task id'
@@ -75,8 +80,6 @@ components:
       properties:
         tiker:
           type: string
-      example:
-        'NASDAQCM:PIK'
     CeleryId:
       type: object
       properties:
@@ -87,8 +90,7 @@ components:
       properties:
         ni:
           type: object
-          items:
-            properties:
+          properties:
               Q:
                 type: object
                 additionalProperties: {}
