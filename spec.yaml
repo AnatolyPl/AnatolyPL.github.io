@@ -30,7 +30,13 @@ paths:
             flat_new:
               value: flat_new
               summary: это если аренду
-            
+        - name: test
+          in: query
+          required: true
+          schema:
+              type: array
+              items:
+                type: string
         - name: deal_type
           in: path
           description: Type of deal (rent or sale)
