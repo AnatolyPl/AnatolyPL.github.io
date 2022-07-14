@@ -74,8 +74,8 @@ paths:
                       additionalProperties: {}
   /cian/{building_type}/{deal_type}/{region}:
     get:
-      summary: 'Sample endpoint: Returns details about a particular user'
-      operationId: listUser
+      summary: 'Returns celery_task_id for Cian market'
+      operationId: cianCeleryIdGet
       security: []
       tags:
         - cian
