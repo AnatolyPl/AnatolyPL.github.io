@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  version: '1.0.0'
-  title: 'InvestingAPI'
+  version: '1.1.0'
+  title: 'OceanAPI'
   license:
     name: MIT
 servers:
@@ -72,8 +72,91 @@ paths:
                     items:
                       type: object
                       additionalProperties: {}
+  /cian/{building_type}/{deal_type}/{region}:
+    get:
+      summary: 'Sample endpoint: Returns details about a particular user'
+      operationId: listUser
+      security: []
+      tags:
+        - cian
+      parameters:
+        - name: building_type
+          in: path
+          description: Type of building
+          required: true
+          schema:
+            type: string
+            enum: [office, flat_new, flat_old, building, warehouse, trading area, land plot]
+          examples:
+            office:
+              value: flat_old
+              summary: вторичка
+            flat_new:
+              value: flat_new
+              summary: первичка
+        - name: deal_type
+          in: path
+          description: Type of deal
+          required: true
+          schema:
+              type: string
+              enum: ['rent', 'sale']
+        - name: region
+          in: path
+          description: Region
+          required: true
+          schema:
+              type: string
+              enum: ['Москва', 'Московская область', 
+                     'Санкт-Петербург', 'Ленинградская область',
+                     'Новосибирск', 'Новосибирская область',
+                     'Екатеринбург', 'Свердловская область',
+                     'Казань', 'Республика Татарстан',
+                     'Нижний Новгород', 'Нижегородская область',
+                     'Челябинск', 'Челябинская область',
+                     'Самара', 'Самарская область',
+                     'Омск', 'Омская область',
+                     'Ростов-на-Дону', 'Ростовская область',
+                     'Уфа', 'Республика Башкортостан',
+                     'Красноярск', 'Красноярский край',
+                     'Воронеж', 'Воронежская область',
+                     'Пермь', 'Пермский край',
+                     'Волгоград', 'Волгоградская область',
+                     'Города миллионники', 'Регионы'
+              ]
+      responses:
+        '200':
+          description: 'Found celery task id'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cian'
+        '404':
+          description: "Didn't find celery task id"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                required:
+                  - detail
+              examples:
+                Not found:
+                  description: 'The only response possible'
+                  value:
+                    detail: 'Not found.'
+
 components:
   schemas:
+    Cian:
+      type: object
+      required:
+        - celery_task_id
+      properties:
+        celery_task_id:
+          type: string
     Tiker:
       type: object
       required: 
