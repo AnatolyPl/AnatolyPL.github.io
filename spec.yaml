@@ -1,37 +1,138 @@
 openapi: 3.0.0
 info:
   version: '1.1.0'
-  title: 'EvolutioAPI'
+  title: 'OceanAPI'
   license:
     name: MIT
 servers:
   - url: '/api'
 paths:
-  /orders:
+  /investing/{celery_task_id}/:
     get:
-      summary: 'Returns details about orders and its deliveries'
-      operationId: getInfoAboutOrdersDeliveries
+      summary: 'Returns details about created task'
+      operationId: getInfoAboutTask
       security: []
       tags:
-        - orders
+        - investing
       parameters:
-        - name: brand_id
-          in: query
+        - name: celery_task_id
+          in: path
           required: true
           schema:
-              type: integer
-              format: int32
+              type: string
       responses:
         '200':
-          description: 'Orders data'
+          description: 'Task data'
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Order'
+                $ref: '#/components/schemas/InvestingTaskInfo'
+        '201':
+          description: 'Task in process'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  info:
+                    type: string
+                    enum: ['task in progress']
+  /investing/:
+    post:
+      summary: 'Returns celery_task_id of created task'
+      operationId: initiateInvestingTask
+      security: []
+      tags:
+        - investing
+      requestBody:
+        description: 'TIKER of company' 
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tiker'
+            examples:
+              Kidpik Corp.:
+                value: 
+                  tiker: NASDAQCM:PIK
+                summary: Kинформация о Kidpik Corp.
+      responses:
+        '200':
+          description: 'Celery task id'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CeleryId'
+                type: object
+                properties:
+                  number:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: {}
+  /cian/{building_type}/{deal_type}/{region}:
+    get:
+      summary: 'Returns celery_task_id for Cian market'
+      operationId: cianCeleryIdGet
+      security: []
+      tags:
+        - cian
+      parameters:
+        - name: building_type
+          in: path
+          description: Type of building
+          required: true
+          schema:
+            type: string
+            enum: [office, flat_new, flat_old, building, warehouse, trading area, land plot]
+          examples:
+            office:
+              value: flat_old
+              summary: вторичка
+            flat_new:
+              value: flat_new
+              summary: первичка
+        - name: deal_type
+          in: path
+          description: Type of deal
+          required: true
+          schema:
+              type: string
+              enum: ['rent', 'sale']
+        - name: region
+          in: path
+          description: Region
+          required: true
+          schema:
+              type: string
+              enum: ['Москва', 'Московская область', 
+                     'Санкт-Петербург', 'Ленинградская область',
+                     'Новосибирск', 'Новосибирская область',
+                     'Екатеринбург', 'Свердловская область',
+                     'Казань', 'Республика Татарстан',
+                     'Нижний Новгород', 'Нижегородская область',
+                     'Челябинск', 'Челябинская область',
+                     'Самара', 'Самарская область',
+                     'Омск', 'Омская область',
+                     'Ростов-на-Дону', 'Ростовская область',
+                     'Уфа', 'Республика Башкортостан',
+                     'Красноярск', 'Красноярский край',
+                     'Воронеж', 'Воронежская область',
+                     'Пермь', 'Пермский край',
+                     'Волгоград', 'Волгоградская область',
+                     'Города миллионники', 'Регионы'
+              ]
+      responses:
+        '200':
+          description: 'Found celery task id'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cian'
         '404':
-          description: "Didn't find any records"
+          description: "Didn't find celery task id"
           content:
             application/json:
               schema:
@@ -46,100 +147,151 @@ paths:
                   description: 'The only response possible'
                   value:
                     detail: 'Not found.'
-  /products:
-    get:
-      summary: 'Returns overall quantity of each product in order'
-      operationId: getQuantityProductInOrder
-      security: []
-      tags:
-        - orders
-      parameters:
-        - in: query
-          name: filter
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: object
-            oneOf:
-              - properties:
-                  id:
-                    type: integer
-                    format: int32
-                required: [id]
-                additionalProperties: false
-              - properties:
-                  reference:
-                    type: string
-                required: [reference]
-                additionalProperties: false
-      responses:
-        '200':
-          description: 'Products quantity info'
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Product'
-        '404':
-          description: "Didn't find any records"
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  detail:
-                    type: string
-                required:
-                  - detail
-              examples:
-                Not found:
-                  description: 'The only response possible'
-                  value:
-                    detail: 'Not found.'
+
 components:
   schemas:
-    Order:
+    Cian:
       type: object
       required:
         - celery_task_id
       properties:
-        id:
-          type: integer
-          format: int32
-        brand_id:
-          type: integer
-          format: int32
-        reference:
+        celery_task_id:
           type: string
-        date_of_creation:
+    Tiker:
+      type: object
+      required: 
+        - tiker
+      properties:
+        tiker:
           type: string
-          format: date-time
-        price_total:
-          type: number
-          format: double
-        deliveries:
-          type: array
-          items:
-            $ref: '#/components/schemas/Delivery'
-    Delivery:
+    CeleryId:
       type: object
       properties:
-        id:
-          type: integer
-          format: int32
-        shipped:
-          type: boolean
-        products:
-          type: array
-          items:
-            $ref: '#/components/schemas/Product'
-    Product:
+        celery_task_id:
+          type: string
+    InvestingTaskInfo:
       type: object
       properties:
-        quantity:
+        ni:
+          type: object
+          description: 'Net Income Reconciliation'
+          properties:
+              Q:
+                description: 'period: Fiscal Quarter'
+                type: object
+                additionalProperties: {}
+              LTM:
+                description: 'period: Latest Twelve Month'
+                type: object
+                additionalProperties: {}
+              FY:
+                description: 'period: Fiscal Year'
+                type: object
+                additionalProperties: {}
+        ebitda:
+          type: object
+          description: 'EBITDA Reconciliation'
+          properties:
+              Q:
+                description: 'period: Fiscal Quarter'
+                type: object
+                additionalProperties: {}
+              LTM:
+                description: 'period: Latest Twelve Month'
+                type: object
+                additionalProperties: {}
+              FY:
+                description: 'period: Fiscal Year'
+                type: object
+                additionalProperties: {}
+        forecasts:
+          type: object
+          description: 'Forecasts'
+          properties:
+              Q:
+                description: 'period: Fiscal Quarter'
+                type: object
+                additionalProperties: {}
+              LTM:
+                description: 'period: Latest Twelve Month'
+                type: object
+                additionalProperties: {}
+              FY:
+                description: 'period: Fiscal Year'
+                type: object
+                additionalProperties: {}
+        valuation:
+          type: object
+          description: 'Valuation Ratios'
+          properties:
+              Q:
+                description: 'period: Fiscal Quarter'
+                type: object
+                additionalProperties: {}
+              LTM:
+                description: 'period: Latest Twelve Month'
+                type: object
+                additionalProperties: {}
+              FY:
+                description: 'period: Fiscal Year'
+                type: object
+                additionalProperties: {}
+        balance_sheet:
+          type: object
+          description: 'Balance Sheet'
+          properties:
+              Q:
+                description: 'period: Fiscal Quarter'
+                type: object
+                additionalProperties: {}
+              LTM:
+                description: 'period: Latest Twelve Month'
+                type: object
+                additionalProperties: {}
+              FY:
+                description: 'period: Fiscal Year'
+                type: object
+                additionalProperties: {}
+        income_statement:
+          type: object
+          description: 'Income Statement'
+          properties:
+              Q:
+                description: 'period: Fiscal Quarter'
+                type: object
+                additionalProperties: {}
+              LTM:
+                description: 'period: Latest Twelve Month'
+                type: object
+                additionalProperties: {}
+              FY:
+                description: 'period: Fiscal Year'
+                type: object
+                additionalProperties: {}
+        cashflow_statement:
+          type: object
+          description: 'Cash Flow Statement'
+          properties:
+              Q:
+                description: 'period: Fiscal Quarter'
+                type: object
+                additionalProperties: {}
+              LTM:
+                description: 'period: Latest Twelve Month'
+                type: object
+                additionalProperties: {}
+              FY:
+                description: 'period: Fiscal Year'
+                type: object
+                additionalProperties: {}
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
           type: integer
           format: int32
-        name:
-          type: string  
+        message:
+          type: string
