@@ -26,7 +26,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InvestingTaskInfo'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
         '201':
           description: 'Task in process'
           content:
