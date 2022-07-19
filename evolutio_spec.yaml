@@ -63,20 +63,24 @@ paths:
             type: object
             oneOf:
               - properties:
-                  username:
-                    type: string
-                required: [username]
+                  id:
+                    type: integer
+                    format: int32
+                required: [id]
                 additionalProperties: false
               - properties:
-                  site:
+                  reference:
                     type: string
-                required: [site]
+                required: [reference]
                 additionalProperties: false
-              - properties:
-                  survey:
-                    type: string
-                required: [survey]
-                additionalProperties: false
+          examples:
+            By_reference:
+              value: 
+                reference: '1480'
+            By_id:
+              value:
+                id: 1
+
       responses:
         '200':
           description: 'Celery task id'
