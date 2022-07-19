@@ -17,6 +17,7 @@ paths:
       parameters:
         - name: brand_id
           in: query
+          description: 'Brand_id of order'
           required: true
           schema:
               type: integer
@@ -56,6 +57,7 @@ paths:
       parameters:
         - in: query
           name: filter
+          description: 'Pass either id of the order or reference'
           required: true
           style: form
           explode: true
@@ -102,21 +104,24 @@ components:
   schemas:
     Order:
       type: object
-      required:
-        - celery_task_id
       properties:
         id:
+          description: 'Id of order'
           type: integer
           format: int32
         brand_id:
+          description: 'Brand id of order'
           type: integer
           format: int32
         reference:
+          description: 'Reference of order'
           type: string
         date_of_creation:
+          description: 'Date time when order created'
           type: string
           format: date-time
         price_total:
+          description: 'Price of order'
           type: number
           format: double
         deliveries:
@@ -127,9 +132,11 @@ components:
       type: object
       properties:
         id:
+          description: 'Id of the delivery'
           type: integer
           format: int32
         shipped:
+          description: 'Is shipped'
           type: boolean
         products:
           type: array
@@ -139,7 +146,9 @@ components:
       type: object
       properties:
         quantity:
+          description: 'Overall quantity of certain product for given query'
           type: integer
           format: int32
         name:
+          description: 'Name of the product'
           type: string
