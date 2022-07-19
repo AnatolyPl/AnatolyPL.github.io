@@ -54,7 +54,6 @@ paths:
       tags:
         - investing
       parameters:
-      parameters:
         - in: query
           name: filter
           required: true
