@@ -5,7 +5,7 @@ info:
   license:
     name: MIT
 servers:
-  - url: 'localhost:8001/api'
+  - url: '/api'
 paths:
   /orders:
     get:
