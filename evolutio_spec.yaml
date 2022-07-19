@@ -61,16 +61,22 @@ paths:
           explode: true
           schema:
             type: object
-            properties:
-              username:
-                type: string
-              site:
-                type: string
-              survey:
-                type: string
-            minProperties: 1
-            maxProperties: 1
-            additionalProperties: false
+            oneOf:
+              - properties:
+                  username:
+                    type: string
+                required: [username]
+                additionalProperties: false
+              - properties:
+                  site:
+                    type: string
+                required: [site]
+                additionalProperties: false
+              - properties:
+                  survey:
+                    type: string
+                required: [survey]
+                additionalProperties: false
       responses:
         '200':
           description: 'Celery task id'
