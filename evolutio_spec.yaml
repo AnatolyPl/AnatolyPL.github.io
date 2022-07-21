@@ -172,5 +172,6 @@ components:
           type: string
   securitySchemes:
     TokenAuth:
-      type: http
-      scheme: token
+      type: apiKey
+      in: header
+      name: Authorization
