@@ -11,6 +11,7 @@ paths:
     post:
       summary: 'Returns auth token for given user'
       operationId: getAuthToken
+      security: []
       tags:
         - auth
       requestBody:
