@@ -115,6 +115,9 @@ paths:
                   description: 'The only response possible'
                   value:
                     detail: 'Not found.'
+security:
+  - TokenAuth: []
+
 components:
   schemas:
     Order:
@@ -167,3 +170,7 @@ components:
         name:
           description: 'Name of the product'
           type: string
+  securitySchemes:
+    TokenAuth:
+      type: http
+      scheme: token
