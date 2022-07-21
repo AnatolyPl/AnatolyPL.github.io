@@ -7,11 +7,46 @@ info:
 servers:
   - url: '/api'
 paths:
+  /token_auth:
+    post:
+      summary: 'Returns auth token for given user'
+      operationId: getAuthToken
+      tags:
+        - auth
+      requestBody:
+        description: 'User credentials' 
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCredentials'
+            examples:
+              Working Credentials:
+                value: 
+                  username: evolutio
+                  password: evolutio_test
+      responses:
+        '200':
+          description: 'Orders data. Page size is set to 2'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  next:
+                    type: string
+                    description: 'Link to the next page with results'
+                  previous:
+                    type: string
+                    description: 'Link to the previous page with results'
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Order'
   /orders:
     get:
       summary: 'Returns details about orders and its deliveries'
       operationId: getInfoAboutOrdersDeliveries
-      security: []
       tags:
         - orders
       parameters:
@@ -66,7 +101,6 @@ paths:
     get:
       summary: 'Returns overall quantity of each product in order'
       operationId: getQuantityProductInOrder
-      security: []
       tags:
         - orders
       parameters:
@@ -120,6 +154,15 @@ security:
 
 components:
   schemas:
+    UserCredentials:
+      type: object
+      properties:
+        username:
+          type: string
+          description: 'Login'
+        password:
+          type: string
+          description: 'Password'
     Order:
       type: object
       properties:
